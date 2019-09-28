@@ -129,12 +129,13 @@ prompt_pure_preprompt_render() {
 	local -a preprompt_parts
 
 	# Set the path.
-	preprompt_parts+=('%F{${prompt_pure_colors[path]}}%~%f')
+	# preprompt_parts+=('%F\u001b[33;1m%~%f')
+	preprompt_parts+=('%B%F{${prompt_pure_colors[path]}}%~%f%b')
 
 	# Add Git branch and dirty status info.
 	typeset -gA prompt_pure_vcs_info
 	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
-		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[branch]}${prompt_pure_git_dirty}%f')
+		preprompt_parts+=("%B%F{$git_color}"'${prompt_pure_vcs_info[branch]}${prompt_pure_git_dirty}%f%b')
 	fi
 	# Git pull/push arrows.
 	if [[ -n $prompt_pure_git_arrows ]]; then
@@ -675,7 +676,7 @@ prompt_pure_setup() {
 		host                 242
 		path                 blue
 		prompt:error         red
-		prompt:success       magenta
+		prompt:success       green
 		user                 242
 		user:root            default
 		virtualenv           242
@@ -699,7 +700,7 @@ prompt_pure_setup() {
 	PROMPT='%(12V.%F{$prompt_pure_colors[virtualenv]}%12v%f .)'
 
 	# Prompt turns red if the previous command didn't exit with 0.
-	PROMPT+='%(?.%F{$prompt_pure_colors[prompt:success]}.%F{$prompt_pure_colors[prompt:error]})${prompt_pure_state[prompt]}%f '
+	PROMPT+='%(?.%B%F{$prompt_pure_colors[prompt:success]}.%B%F{$prompt_pure_colors[prompt:error]})${prompt_pure_state[prompt]}%f%b '
 
 	# Indicate continuation prompt by … and use a darker color for it.
 	PROMPT2='%F{242}%_… %f%(?.%F{magenta}.%F{red})${prompt_pure_state[prompt]}%f '
