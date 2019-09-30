@@ -517,7 +517,6 @@ prompt_pure_async_callback() {
 			esac
 			;;
 		prompt_pure_async_git_stash)
-			local prev_dirty=$prompt_pure_git_dirty
 			if (( code == 0 )); then
 				unset prompt_pure_git_stash
 			else
