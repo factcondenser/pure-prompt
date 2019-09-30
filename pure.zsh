@@ -706,7 +706,7 @@ prompt_pure_setup() {
 		host                 242
 		path                 blue
 		prompt:error         red
-		prompt:success       green
+		prompt:success       magenta
 		user                 242
 		user:root            default
 		virtualenv           242
