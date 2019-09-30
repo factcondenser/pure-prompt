@@ -129,7 +129,6 @@ prompt_pure_preprompt_render() {
 	local -a preprompt_parts
 
 	# Set the path.
-	# preprompt_parts+=('%F\u001b[33;1m%~%f')
 	preprompt_parts+=('%B%F{${prompt_pure_colors[path]}}%~%f%b')
 
 	# Add Git branch and dirty status info.
