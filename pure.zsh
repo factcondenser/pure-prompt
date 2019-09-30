@@ -331,7 +331,6 @@ prompt_pure_async_git_arrows() {
 
 prompt_pure_async_git_stash() {
 	local git_dir="$(git rev-parse --git-dir 2>/dev/null)"
-	echo "CHEESECAKE"
 	local stash_file="${git_dir}/logs/refs/stash"
 	local num_stashed=0
 
@@ -766,4 +765,3 @@ prompt_pure_setup() {
 }
 
 prompt_pure_setup "$@"
-p
