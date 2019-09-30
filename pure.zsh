@@ -137,6 +137,10 @@ prompt_pure_preprompt_render() {
 	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
 		preprompt_parts+=("%B%F{$git_color}"'${prompt_pure_vcs_info[branch]}${prompt_pure_git_dirty}%f%b')
 	fi
+	# Git stash.
+	if [[ -n $prompt_pure_git_stash ]]; then
+		preprompt_parts+=('%B%F{$prompt_pure_colors[git:stash]}${prompt_pure_git_stash}%f%b')
+	fi
 	# Git pull/push arrows.
 	if [[ -n $prompt_pure_git_arrows ]]; then
 		preprompt_parts+=('%F{$prompt_pure_colors[git:arrow]}${prompt_pure_git_arrows}%f')
@@ -326,6 +330,21 @@ prompt_pure_async_git_arrows() {
 	command git rev-list --left-right --count HEAD...@'{u}'
 }
 
+prompt_pure_async_git_stash() {
+	local git_dir="$(git rev-parse --git-dir 2>/dev/null)"
+	echo "CHEESECAKE"
+	local stash_file="${git_dir}/logs/refs/stash"
+	local num_stashed=0
+
+	if [[ -e "${stash_file}" ]]; then
+		while IFS='' read -r wcline || [[ -n "${wcline}" ]]; do
+			((num_stashed++))
+		done < "${stash_file}"
+	fi
+
+	return num_stashed
+}
+
 prompt_pure_async_tasks() {
 	setopt localoptions noshwordsplit
 
@@ -351,6 +370,7 @@ prompt_pure_async_tasks() {
 		unset prompt_pure_git_last_dirty_check_timestamp
 		unset prompt_pure_git_arrows
 		unset prompt_pure_git_fetch_pattern
+		unset prompt_pure_git_stash
 		prompt_pure_vcs_info[branch]=
 		prompt_pure_vcs_info[top]=
 	fi
@@ -375,6 +395,7 @@ prompt_pure_async_refresh() {
 	fi
 
 	async_job "prompt_pure" prompt_pure_async_git_arrows
+	async_job "prompt_pure" prompt_pure_async_git_stash
 
 	# Do not preform `git fetch` if it is disabled or in home folder.
 	if (( ${PURE_GIT_PULL:-1} )) && [[ $prompt_pure_vcs_info[top] != $HOME ]]; then
@@ -496,6 +517,14 @@ prompt_pure_async_callback() {
 					fi
 					;;
 			esac
+			;;
+		prompt_pure_async_git_stash)
+			local prev_dirty=$prompt_pure_git_dirty
+			if (( code == 0 )); then
+				unset prompt_pure_git_stash
+			else
+				typeset -g prompt_pure_git_stash=$code
+			fi
 			;;
 	esac
 
@@ -673,6 +702,7 @@ prompt_pure_setup() {
 		git:arrow            cyan
 		git:branch           242
 		git:branch:cached    red
+		git:stash            cyan
 		host                 242
 		path                 blue
 		prompt:error         red
