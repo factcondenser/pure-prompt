@@ -521,6 +521,7 @@ prompt_pure_async_callback() {
 				unset prompt_pure_git_stash
 			else
 				typeset -g prompt_pure_git_stash="${PURE_GIT_STASH_STACK:-Ξ}${code}"
+				do_render=1
 			fi
 			;;
 	esac
