@@ -523,7 +523,7 @@ prompt_pure_async_callback() {
 			if (( code == 0 )); then
 				unset prompt_pure_git_stash
 			else
-				typeset -g prompt_pure_git_stash="${code}${PURE_GIT_STASH_FLAG:-Ξ}"
+				typeset -g prompt_pure_git_stash="${PURE_GIT_STASH_STACK:-Ξ}${code}"
 			fi
 			;;
 	esac
@@ -733,7 +733,7 @@ prompt_pure_setup() {
 	PROMPT+='%(?.%B%F{$prompt_pure_colors[prompt:success]}.%B%F{$prompt_pure_colors[prompt:error]})${prompt_pure_state[prompt]}%f%b '
 
 	# Indicate continuation prompt by … and use a darker color for it.
-	PROMPT2='%F{242}%_… %f%(?.%F{magenta}.%F{red})${prompt_pure_state[prompt]}%f '
+	PROMPT2='%F{242}%_… %f%(?.%B%F{$prompt_pure_colors[prompt:success]}.%B%F{$prompt_pure_colors[prompt:error]})${prompt_pure_state[prompt]}%f%b '
 
 	# Store prompt expansion symbols for in-place expansion via (%). For
 	# some reason it does not work without storing them in a variable first.
