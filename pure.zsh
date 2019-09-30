@@ -520,11 +520,10 @@ prompt_pure_async_callback() {
 			;;
 		prompt_pure_async_git_stash)
 			local prev_dirty=$prompt_pure_git_dirty
-			if (( output == 0 )); then
+			if (( code == 0 )); then
 				unset prompt_pure_git_stash
 			else
-				output+=${PURE_GIT_STASH_FLAG:-⚐}
-				typeset -g prompt_pure_git_stash=$output
+				typeset -g prompt_pure_git_stash="${code}${PURE_GIT_STASH_FLAG:-Ξ}"
 			fi
 			;;
 	esac
@@ -703,7 +702,7 @@ prompt_pure_setup() {
 		git:arrow            cyan
 		git:branch           242
 		git:branch:cached    red
-		git:stash            cyan
+		git:stash            242
 		host                 242
 		path                 blue
 		prompt:error         red
