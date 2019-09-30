@@ -520,10 +520,11 @@ prompt_pure_async_callback() {
 			;;
 		prompt_pure_async_git_stash)
 			local prev_dirty=$prompt_pure_git_dirty
-			if (( code == 0 )); then
+			if (( output == 0 )); then
 				unset prompt_pure_git_stash
 			else
-				typeset -g prompt_pure_git_stash=$code
+				output+=${PURE_GIT_STASH_FLAG:-⚐}
+				typeset -g prompt_pure_git_stash=$output
 			fi
 			;;
 	esac
