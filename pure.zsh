@@ -767,3 +767,4 @@ prompt_pure_setup() {
 }
 
 prompt_pure_setup "$@"
+p
