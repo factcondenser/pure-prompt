@@ -2,8 +2,6 @@
 
 > Pretty, minimal and fast ZSH prompt
 
-<img src="screenshot.png" width="864">
-
 
 ## Overview
 
